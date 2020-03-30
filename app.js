@@ -25,8 +25,12 @@ app.use('/task', taskRouter)
 //middleware
 app.use(cors());
 
+
 //Imported mongoose pakage
 var mongoose = require("mongoose");
+
+//Config file 
+require("dotenv/config");
 
 
 
