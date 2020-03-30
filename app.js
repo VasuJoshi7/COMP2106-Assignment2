@@ -4,10 +4,14 @@ const app = express();
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
+var config = require("./config/config");
 
+//import body-parser to parser the req from client
+const bodyParser = require('body-parser');
+app.use(bodyParser.json())
 
-
-
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -18,7 +22,11 @@ app.use('/users', usersRouter);
 app.use('/task', taskRouter)
 
 
+//middleware
+app.use(cors());
 
+//Imported mongoose pakage
+var mongoose = require("mongoose");
 
 
 
@@ -61,6 +69,14 @@ app.use(function (err, req, res, next) {
 });
 
 
+// mongooes db setup/connection
+mongoose.connect(config.DB_URL, { useNewUrlParser: true, useUnifiedTopology: true }, (error) => {
+  if (!error) {
+    console.log("Database Connected Successfully !");
+  } else {
+    console.log("Failed to connect database.");
+  }
+})
 
 
 
